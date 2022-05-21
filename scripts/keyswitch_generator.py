@@ -33,8 +33,8 @@ keycaps = {
 }
 
 def generate_switch_kailh_choc_v1(output_path):
-    x_spacing = 19
-    y_spacing = 18
+    x_spacing = CHOC_SPACING_X
+    y_spacing = CHOC_SPACING_Y
     # group = 'Switch_Keyboard_Kailh'
     group = 'Keyswitch_Choc'
     out_path = os.path.join(output_path, f'{group}.pretty')
@@ -58,8 +58,8 @@ def generate_switch_kailh_choc_v1(output_path):
 
 
 def generate_switch_hotswap_kailh_choc_v1(output_path):
-    x_spacing = 19
-    y_spacing = 18
+    x_spacing = CHOC_SPACING_X
+    y_spacing = CHOC_SPACING_Y
     # group = 'Switch_Keyboard_Hotswap_Kailh'
     group = 'Keyswitch_Choc_Socket'
     out_path = os.path.join(output_path, f'{group}.pretty')

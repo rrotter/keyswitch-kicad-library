@@ -106,10 +106,10 @@ class SwitchKailhChocV1(Switch):
 
         # create pads
         self.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                        at=[0, -5.9], size=[2.2, 2.2], drill=1.2,
+                        at=[0, 5.9], size=[2.2, 2.2], drill=1.2,
                         layers=['*.Cu', 'B.Mask']))
         self.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                        at=[5, -3.8], size=[2.2, 2.2], drill=1.2,
+                        at=[-5, 3.8], size=[2.2, 2.2], drill=1.2,
                         layers=['*.Cu', 'B.Mask']))
         self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
                         at=[0, 0], size=[3.2, 3.2], drill=3.2,
@@ -119,9 +119,6 @@ class SwitchKailhChocV1(Switch):
                         layers=['*.Cu', '*.Mask']))
         self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
                         at=[5.5, 0], size=[1.8, 1.8], drill=1.8,
-                        layers=['*.Cu', '*.Mask']))
-        self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                        at=[-5.22, 4.2], size=[1.2, 1.2], drill=1.2,
                         layers=['*.Cu', '*.Mask']))
 
     def _init_cutout(self):
@@ -231,17 +228,17 @@ class SwitchHotswapKailhChocV1(Switch):
 
         # create pads
         self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                        at=[0, -5.95], size=[3, 3], drill=3,
+                        at=[0, 5.95], size=[3, 3], drill=3,
                         layers=['*.Cu', '*.Mask']))
         self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                        at=[5, -3.75], size=[3, 3], drill=3,
+                        at=[-5, 3.75], size=[3, 3], drill=3,
                         layers=['*.Cu', '*.Mask']))
 
         self.append(Pad(number=1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
-                        at=[-3.275, -5.95], size=[2.6, 2.6],
+                        at=[3.275, 5.95], size=[2.6, 2.6],
                         round_radius_exact=0.25, layers=['B.Cu', 'B.Mask', 'B.Paste']))
         self.append(Pad(number=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
-                        at=[8.275, -3.75], size=[2.6, 2.6],
+                        at=[-8.275, 3.75], size=[2.6, 2.6],
                         round_radius_exact=0.25, layers=['B.Cu', 'B.Mask', 'B.Paste']))
 
         self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
@@ -252,9 +249,6 @@ class SwitchHotswapKailhChocV1(Switch):
                         layers=['*.Cu', '*.Mask']))
         self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
                         at=[5.5, 0], size=[1.9, 1.9], drill=1.9,
-                        layers=['*.Cu', '*.Mask']))
-        self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                        at=[-5.22, 4.2], size=[1.3, 1.3], drill=1.3,
                         layers=['*.Cu', '*.Mask']))
 
     def _init_cutout(self):
