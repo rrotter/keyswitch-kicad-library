@@ -30,6 +30,7 @@ class Switch(Footprint):
         if cutout is True:
             self.tags += ' Cutout'
 
+        self.keycap = keycap
         if keycap is not None:
             self.name += '_' + keycap.name
             self.description += f' with {keycap.tags} keycap'
@@ -52,6 +53,63 @@ class Switch(Footprint):
         if self.path3d is not None:
             self.append(Model(filename=self.path3d,
                         at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
+
+    def _init_cutout_simple(self):
+
+        # create cutout
+        self.append(RectLine(start=[-self.switch_w/2, -self.switch_h/2],
+                             end=[self.switch_w/2, self.switch_h/2],
+                             layer='Eco1.User', width=0.1))
+
+    def _fab_outline(self):
+        # create fab outline
+        self.append(RectLine(start=[-self.switch_w/2, -self.switch_h/2],
+                             end=[self.switch_w/2, self.switch_h/2],
+                             layer='F.Fab', width=0.1))
+
+    def _silkscreen(self):
+        # create silkscreen
+        self.append(RectLine(start=[-self.switch_w/2, -self.switch_h/2],
+                             end=[self.switch_w/2, self.switch_h/2],
+                             layer='F.SilkS', width=0.12, offset=0.1))
+
+    def _courtyard(self):
+        # create courtyard
+        self.append(RectLine(start=[-self.switch_w/2, -self.switch_h/2],
+                             end=[self.switch_w/2, self.switch_h/2],
+                             layer='F.CrtYd', width=0.05, offset=0.25))
+
+    def _init_keycap(self):
+        # create cutout based on switch dimensions
+        if self.keycap is not None:
+            self.append(self.keycap)
+
+    def _init_cutout_relief(self):
+        # create mx "relief" cutout
+        polyline = [[7, -7],
+                    [7, -6],
+                    [7.8, -6],
+                    [7.8, -2.9],
+                    [7, -2.9],
+                    [7, 2.9],
+                    [7.8, 2.9],
+                    [7.8, 6],
+                    [7, 6],
+                    [7, 7],
+                    [-7, 7],
+                    [-7, 6],
+                    [-7.8, 6],
+                    [-7.8, 2.9],
+                    [-7, 2.9],
+                    [-7, -2.9],
+                    [-7.8, -2.9],
+                    [-7.8, -6],
+                    [-7, -6],
+                    [-7, -7],
+                    [7, -7]]
+
+        self.append(PolygoneLine(polygone=polyline,
+                                 layer='Eco1.User', width=0.1))
 
 
 class StabilizerCherryMX(Switch):
@@ -147,65 +205,6 @@ class StabilizerCherryMX(Switch):
             start=[-offset - 3.375, -5.53],
             end=[-offset + 3.375, 6.77],
             layer='Eco1.User', width=0.1))
-
-
-# https://github.com/keyboardio/keyswitch_documentation/blob/master/datasheets/ALPS/SKCL.pdf
-class SwitchAlpsMatias(Switch):
-
-    def __init__(self,
-                 name: str = 'SW_Alps_Matias',
-                 description: str = 'Alps/Matias keyswitch',
-                 tags: str = 'Alps Matias Keyboard Keyswitch Switch Plate',
-                 cutout: bool = True, keycap: Keycap = None,
-                 path3d: str = None, model3d: str = 'SW_Alps_Matias.wrl'):
-
-        Switch.__init__(self,
-                        name=name,
-                        description=description,
-                        tags=tags,
-                        cutout=cutout,
-                        keycap=keycap,
-                        path3d=path3d,
-                        model3d=model3d)
-
-        self._init_switch()
-
-        if cutout is True:
-            self._init_cutout()
-
-        if keycap is not None:
-            self.append(keycap)
-
-    def _init_switch(self):
-        # create fab outline
-        self.append(RectLine(start=[-7.75, -6.4], end=[7.75, 6.4],
-                    layer='F.Fab', width=0.1))
-
-        # create silkscreen
-        self.append(RectLine(start=[-7.75, -6.4], end=[7.75, 6.4],
-                    layer='F.SilkS', width=0.12, offset=0.1))
-
-        # create courtyard
-        self.append(RectLine(start=[-7.75, -6.4], end=[7.75, 6.4],
-                    layer='F.CrtYd', width=0.05, offset=0.25))
-
-        # create pads
-        self.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                    at=[-2.5, -4], size=[2.5, 2.5], drill=1.5,
-                    layers=['*.Cu', 'B.Mask']))
-        self.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                    at=[2.5, -4.5], size=[2.5, 2.5], drill=1.5,
-                    layers=['*.Cu', 'B.Mask']))
-
-    def _init_cutout(self):
-
-        width = 15.5
-        height = 12.8
-
-        # create cutout
-        self.append(RectLine(start=[-width/2, -height/2],
-                             end=[width/2, height/2],
-                             layer='Eco1.User', width=0.1))
 
 
 # https://www.cherrymx.de/en/dev.html

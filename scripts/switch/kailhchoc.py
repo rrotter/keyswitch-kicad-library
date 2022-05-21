@@ -11,8 +11,8 @@ from switch import Switch
 # http://www.kailh.com/en/Products/Ks/CS/
 class SwitchKailhChoc(Switch):
 
-    choc_w = 15
-    choc_h = 15
+    switch_w = 15
+    switch_h = 15
 
     choc_cut_w = 14.5
     choc_cut_h = 14.5
@@ -21,10 +21,9 @@ class SwitchKailhChoc(Switch):
                  switch_type: str = 'V1V2',
                  hotswap: bool = False, hotswap_plated: bool = False,
                  name: str = None,
-                 description: str = 'Kailh Choc keyswitch',
-                 tags: str = 'Kailh Choc Keyswitch Switch',
-                 cutout: bool = True, keycap: Keycap = None,
-                 path3d: str = None, model3d: str = None):
+                 cutout: bool = True,
+                 model3d: str = None,
+                 **kwargs):
 
         if switch_type not in ['V1', 'V2', 'V1V2']:
             raise ValueError(f'Switch type {switch_type} not supported.')
@@ -45,22 +44,20 @@ class SwitchKailhChoc(Switch):
         else:
             _model3d = model3d
 
-        if name is None:
-            if hotswap is True:
-                _name = 'SW_Hotswap_Kailh_Choc'
-            else:
-                _name = 'SW_Kailh_Choc'
 
-            _name += '_' + switch_type
-
-            if hotswap_plated is True:
-                _name += '_Plated'
-
+        if hotswap is True:
+            _name = 'SW_Hotswap_Kailh_Choc'
         else:
-            _name = name
+            _name = 'SW_Kailh_Choc'
 
-        _description = description
-        _tags = tags
+        _name += '_' + switch_type
+
+        if hotswap_plated is True:
+            _name += '_Plated'
+
+
+        _description = 'Kailh Choc keyswitch'
+        _tags = 'Kailh Choc Keyswitch Switch'
 
         if switch_type in ['V1', 'V1V2']:
             _description += ' CPG1350 V1'
@@ -78,23 +75,22 @@ class SwitchKailhChoc(Switch):
             _description += ' Plated'
             _tags += ' Plated'
 
-        Switch.__init__(self,
-                        name=_name,
-                        description=_description,
-                        tags=_tags,
-                        cutout=cutout,
-                        keycap=keycap,
-                        path3d=path3d,
-                        model3d=_model3d,
-                        text_offset=9)
+        super().__init__(
+            name=_name,
+            description=_description,
+            tags=_tags,
+            cutout=cutout,
+            model3d=_model3d,
+            text_offset=9,
+            **kwargs
+        )
 
         self._init_switch()
 
         if cutout is True:
             self._init_cutout()
 
-        if keycap is not None:
-            self.append(keycap)
+        self._init_keycap()
 
     def _init_switch(self):
 
@@ -102,20 +98,9 @@ class SwitchKailhChoc(Switch):
         if self.hotswap is True:
             self.setAttribute('smd')
 
-        # create fab outline
-        self.append(RectLine(start=[-self.choc_w/2, -self.choc_h/2],
-                             end=[self.choc_w/2, self.choc_h/2],
-                             layer='F.Fab', width=0.1))
-
-        # create silkscreen
-        self.append(RectLine(start=[-self.choc_w/2, -self.choc_h/2],
-                             end=[self.choc_w/2, self.choc_h/2],
-                             layer='F.SilkS', width=0.12, offset=0.1))
-
-        # create courtyard
-        self.append(RectLine(start=[-self.choc_w/2, -self.choc_h/2],
-                             end=[self.choc_w/2, self.choc_h/2],
-                             layer='F.CrtYd', width=0.05, offset=0.25))
+        self._fab_outline()
+        self._silkscreen()
+        self._courtyard()
 
         if self.hotswap is True:
             # socket outline

@@ -11,16 +11,13 @@ from switch import Switch
 
 class SwitchHotswapKailh(Switch):
 
-    kailh_hs_w = 14
-    kailh_hs_h = 14
+    switch_w = 14
+    switch_h = 14
 
     def __init__(self,
                  plated_th: bool = False,
-                 name: str = 'SW_Hotswap_Kailh_MX',
-                 description: str = 'Kailh keyswitch Hotswap Socket',
-                 tags: str = 'Kailh Keyboard Keyswitch Switch Hotswap Socket',
-                 cutout: str = 'relief', keycap: Keycap = None,
-                 path3d: str = None, model3d: str = 'SW_Hotswap_Kailh_MX.wrl'):
+                 cutout: str = 'relief',
+                 **kwargs):
 
         if cutout not in ['simple', 'relief', None]:
             raise ValueError(f'Cutout type {cutout} not supported.')
@@ -28,23 +25,23 @@ class SwitchHotswapKailh(Switch):
         self.cutout = cutout
         self.plated_th = plated_th
 
-        _name=name
-        _tags=tags
-        _description=description
+        _name='SW_Hotswap_Kailh_MX'
+        _tags='Kailh Keyboard Keyswitch Switch Hotswap Socket'
+        _description='Kailh keyswitch Hotswap Socket'
 
         if self.plated_th is True:
             _name += '_plated'
             _tags += ' plated'
             _description += ' plated holes'
 
-        Switch.__init__(self,
-                        name=_name,
-                        description=_description,
-                        tags=_tags,
-                        cutout=True if cutout is not None else False,
-                        keycap=keycap,
-                        path3d=path3d,
-                        model3d=model3d)
+        super().__init__(
+            name=_name,
+            description=_description,
+            tags=_tags,
+            cutout=True if cutout is not None else False,
+            model3d='SW_Hotswap_Kailh_MX.wrl',
+            **kwargs
+        )
 
         self._init_switch()
 
@@ -54,8 +51,7 @@ class SwitchHotswapKailh(Switch):
             elif cutout == 'relief':
                 self._init_cutout_relief()
 
-        if keycap is not None:
-            self.append(keycap)
+        self._init_keycap()
 
     def _init_switch(self):
 
@@ -63,9 +59,7 @@ class SwitchHotswapKailh(Switch):
         self.setAttribute('smd')
 
         # create fab outline (keyswitch)
-        self.append(RectLine(start=[-self.kailh_hs_w/2, -self.kailh_hs_h/2],
-                             end=[self.kailh_hs_w/2, self.kailh_hs_h/2],
-                             layer='F.Fab', width=0.1))
+        self._fab_outline()
 
         # create fab outline (socket)
         self.append(Line(start=[-4, -6.8], end=[4.8, -6.8],
@@ -84,9 +78,7 @@ class SwitchHotswapKailh(Switch):
                     angle=-90, layer='B.Fab', width=0.12))
 
         # create silkscreen (keyswitch)
-        self.append(RectLine(start=[-self.kailh_hs_w/2, -self.kailh_hs_h/2],
-                             end=[self.kailh_hs_w/2, self.kailh_hs_h/2],
-                             layer='F.SilkS', width=0.12, offset=0.1))
+        self._silkscreen()
 
         # create silkscreen (socket)
         self.append(Line(start=[-4.1, -6.9], end=[1, -6.9],
@@ -99,9 +91,7 @@ class SwitchHotswapKailh(Switch):
                         angle=-90, layer='B.SilkS', width=0.12))
 
         # create courtyard (keyswitch)
-        self.append(RectLine(start=[-self.kailh_hs_w/2, -self.kailh_hs_h/2],
-                             end=[self.kailh_hs_w/2, self.kailh_hs_h/2],
-                             layer='F.CrtYd', width=0.05, offset=0.25))
+        self._courtyard()
 
         # create courtyard (socket)
         # !TODO: add KLC correct offset (0.25)
@@ -166,37 +156,3 @@ class SwitchHotswapKailh(Switch):
         self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
                         at=[5.08, 0], size=[1.75, 1.75], drill=1.75,
                         layers=['*.Cu', '*.Mask']))
-
-    def _init_cutout_simple(self):
-        # create cutout
-        self.append(RectLine(start=[-self.kailh_hs_w/2, -self.kailh_hs_h/2],
-                             end=[self.kailh_hs_w/2, self.kailh_hs_h/2],
-                             layer='Eco1.User', width=0.1))
-
-    def _init_cutout_relief(self):
-
-        # create cutout
-        polyline = [[7, -7],
-                    [7, -6],
-                    [7.8, -6],
-                    [7.8, -2.9],
-                    [7, -2.9],
-                    [7, 2.9],
-                    [7.8, 2.9],
-                    [7.8, 6],
-                    [7, 6],
-                    [7, 7],
-                    [-7, 7],
-                    [-7, 6],
-                    [-7.8, 6],
-                    [-7.8, 2.9],
-                    [-7, 2.9],
-                    [-7, -2.9],
-                    [-7.8, -2.9],
-                    [-7.8, -6],
-                    [-7, -6],
-                    [-7, -7],
-                    [7, -7]]
-
-        self.append(PolygoneLine(polygone=polyline,
-                                 layer='Eco1.User', width=0.1))

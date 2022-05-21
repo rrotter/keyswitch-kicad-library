@@ -5,13 +5,13 @@ from KicadModTree.KicadFileHandler import KicadFileHandler
 
 from keycap import Keycap
 
-from switch import StabilizerCherryMX, SwitchAlpsMatias, \
-                   SwitchHybridCherryMxAlps, SwitchKailhKH, \
-                   SwitchKailhNB, SwitchKailhChocMini
+from switch import StabilizerCherryMX, SwitchHybridCherryMxAlps, \
+                   SwitchKailhKH, SwitchKailhNB, SwitchKailhChocMini
 
 from switch.cherrymx import SwitchCherryMX
 from switch.hotswapkailh import SwitchHotswapKailh
 from switch.kailhchoc import SwitchKailhChoc
+from switch.alpsmatias import SwitchAlpsMatias
 
 path3d = '${KICAD6_3RD_PARTY}/3dmodels/' \
          'com_github_perigoso_keyswitch-kicad-library/' \
