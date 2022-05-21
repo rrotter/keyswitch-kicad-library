@@ -8,8 +8,10 @@ import util
 
 from switch import Switch
 
+from shapes import ShapesMX
+
 # https://www.cherrymx.de/en/dev.html
-class SwitchCherryMX(Switch):
+class SwitchCherryMX(Switch, ShapesMX):
 
     switch_w = 14
     switch_h = 14
@@ -61,14 +63,7 @@ class SwitchCherryMX(Switch):
         self.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
                         at=[2.54, -5.08], size=[2.5, 2.5], drill=1.5,
                         layers=['*.Cu', 'B.Mask']))
-        self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                        at=[0, 0], size=[4, 4], drill=4,
-                        layers=['*.Cu', '*.Mask']))
+        self.centerhole(dia=4)
 
         if self.switch_type == 'PCB':
-            self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=[-5.08, 0], size=[1.75, 1.75], drill=1.75,
-                            layers=['*.Cu', '*.Mask']))
-            self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=[5.08, 0], size=[1.75, 1.75], drill=1.75,
-                            layers=['*.Cu', '*.Mask']))
+            self.pcb_mount_holes(dia=1.75,x=5.08)

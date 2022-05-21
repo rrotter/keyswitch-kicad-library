@@ -7,10 +7,12 @@ from keycap import Keycap
 import util
 
 from switch import Switch
+from shapes import ShapesHotswap
 
 # http://www.kailh.com/en/Products/Ks/CS/
-class SwitchKailhChoc(Switch):
+class SwitchKailhChoc(Switch, ShapesHotswap):
 
+    # TODO: All of these should be 14 per Kailh datasheet. Change after refactor.
     switch_w = 15
     switch_h = 15
 
@@ -82,7 +84,10 @@ class SwitchKailhChoc(Switch):
         self._init_switch()
 
         if cutout is True:
-            self._init_cutout()
+            # self._init_cutout_simple()
+            self.append(RectLine(start=[-self.choc_cut_w/2, -self.choc_cut_h/2],
+                                 end=[self.choc_cut_w/2, self.choc_cut_h/2],
+                                 layer='Eco1.User', width=0.1))
 
         self._init_keycap()
 
@@ -220,23 +225,17 @@ class SwitchKailhChoc(Switch):
                             at=[5, -3.8], size=[2.2, 2.2], drill=1.2,
                             layers=['*.Cu', 'B.Mask']))
 
+        # center hole
         if self.switch_type == 'V1':
-            self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=[0, 0], size=[3.45, 3.45], drill=3.45,
-                            layers=['*.Cu', '*.Mask']))
-        else:  # V2 or V1V2
-            self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=[0, 0], size=[5.05, 5.05], drill=5.05,
-                            layers=['*.Cu', '*.Mask']))
+            self.centerhole(dia=3.45)
+        else:
+            self.centerhole(dia=5.05)
 
+        # pcb mount holes
         if self.switch_type in ['V1', 'V1V2']:
-            self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=[-5.5, 0], size=[1.9, 1.9], drill=1.9,
-                            layers=['*.Cu', '*.Mask']))
-            self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=[5.5, 0], size=[1.9, 1.9], drill=1.9,
-                            layers=['*.Cu', '*.Mask']))
+            self.pcb_mount_holes(dia=1.9,x=5.5)
 
+        # Choc V2 mount hole
         if self.switch_type in ['V2', 'V1V2']:
             if self.hotswap is False or self.hotswap_plated is True:
                 self.append(Pad(type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
@@ -246,10 +245,3 @@ class SwitchKailhChoc(Switch):
                 self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
                                 at=[-5, 5.15], size=[1.6, 1.6], drill=1.6,
                                 layers=['*.Cu', '*.Mask']))
-
-    def _init_cutout(self):
-
-        # create cutout
-        self.append(RectLine(start=[-self.choc_cut_w/2, -self.choc_cut_h/2],
-                             end=[self.choc_cut_w/2, self.choc_cut_h/2],
-                             layer='Eco1.User', width=0.1))

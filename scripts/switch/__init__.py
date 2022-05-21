@@ -55,7 +55,6 @@ class Switch(Footprint):
                         at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
     def _init_cutout_simple(self):
-
         # create cutout
         self.append(RectLine(start=[-self.switch_w/2, -self.switch_h/2],
                              end=[self.switch_w/2, self.switch_h/2],
@@ -79,37 +78,23 @@ class Switch(Footprint):
                              end=[self.switch_w/2, self.switch_h/2],
                              layer='F.CrtYd', width=0.05, offset=0.25))
 
+    def centerhole(self, dia):
+        self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
+                        at=[0, 0], size=[dia, dia], drill=dia,
+                        layers=['*.Cu', '*.Mask']))
+
+    def pcb_mount_holes(self, dia, x):
+        self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
+                        at=[-x, 0], size=[dia, dia], drill=dia,
+                        layers=['*.Cu', '*.Mask']))
+        self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
+                        at=[x, 0], size=[dia, dia], drill=dia,
+                        layers=['*.Cu', '*.Mask']))
+
     def _init_keycap(self):
         # create cutout based on switch dimensions
         if self.keycap is not None:
             self.append(self.keycap)
-
-    def _init_cutout_relief(self):
-        # create mx "relief" cutout
-        polyline = [[7, -7],
-                    [7, -6],
-                    [7.8, -6],
-                    [7.8, -2.9],
-                    [7, -2.9],
-                    [7, 2.9],
-                    [7.8, 2.9],
-                    [7.8, 6],
-                    [7, 6],
-                    [7, 7],
-                    [-7, 7],
-                    [-7, 6],
-                    [-7.8, 6],
-                    [-7.8, 2.9],
-                    [-7, 2.9],
-                    [-7, -2.9],
-                    [-7.8, -2.9],
-                    [-7.8, -6],
-                    [-7, -6],
-                    [-7, -7],
-                    [7, -7]]
-
-        self.append(PolygoneLine(polygone=polyline,
-                                 layer='Eco1.User', width=0.1))
 
 
 class StabilizerCherryMX(Switch):

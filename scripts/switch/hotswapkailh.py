@@ -7,9 +7,9 @@ from keycap import Keycap
 import util
 
 from switch import Switch
+from shapes import ShapesMX, ShapesHotswap
 
-
-class SwitchHotswapKailh(Switch):
+class SwitchHotswapKailh(Switch, ShapesMX, ShapesHotswap):
 
     switch_w = 14
     switch_h = 14
@@ -110,49 +110,6 @@ class SwitchHotswapKailh(Switch):
         self.append(Arc(center=[-0.3, -0.8], start=[-0.3, -2.8],
                     angle=-90, layer='B.CrtYd', width=0.05))
 
-        # create pads
-        if self.plated_th is True:
-            self.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                            at=[-3.81, -2.54], size=[3.6, 3.6], drill=3.05,
-                            layers=['*.Cu', 'B.Mask']))
-            self.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                            at=[2.54, -5.08], size=[3.6, 3.6], drill=3.05,
-                            layers=['*.Cu', 'B.Mask']))
-
-            self.append(Pad(number=1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
-                            at=[-6.585, -2.54], size=[3.55, 2.5],
-                            round_radius_exact=0.25, layers=['B.Cu']))
-            self.append(Pad(number=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
-                            at=[5.32, -5.08], size=[3.55, 2.5],
-                            round_radius_exact=0.25, layers=['B.Cu']))
-
-            self.append(Pad(type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
-                            at=[-7.085, -2.54], size=[2.55, 2.5],
-                            round_radius_exact=0.25, layers=['B.Mask', 'B.Paste']))
-            self.append(Pad(type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
-                            at=[5.842, -5.08], size=[2.55, 2.5],
-                            round_radius_exact=0.25, layers=['B.Mask', 'B.Paste']))
-        else:
-            self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=[-3.81, -2.54], size=[3.05, 3.05], drill=3.05,
-                            layers=['*.Cu', '*.Mask']))
-            self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=[2.54, -5.08], size=[3.05, 3.05], drill=3.05,
-                            layers=['*.Cu', '*.Mask']))
-
-            self.append(Pad(number=1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
-                        at=[-7.085, -2.54], size=[2.55, 2.5],
-                        round_radius_exact=0.25, layers=['B.Cu', 'B.Mask', 'B.Paste']))
-            self.append(Pad(number=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
-                        at=[5.842, -5.08], size=[2.55, 2.5],
-                        round_radius_exact=0.25, layers=['B.Cu', 'B.Mask', 'B.Paste']))
-
-        self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                        at=[0, 0], size=[4, 4], drill=4,
-                        layers=['*.Cu', '*.Mask']))
-        self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                        at=[-5.08, 0], size=[1.75, 1.75], drill=1.75,
-                        layers=['*.Cu', '*.Mask']))
-        self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                        at=[5.08, 0], size=[1.75, 1.75], drill=1.75,
-                        layers=['*.Cu', '*.Mask']))
+        self._pads()
+        self.centerhole(dia=4)
+        self.pcb_mount_holes(dia=1.75,x=5.08)
