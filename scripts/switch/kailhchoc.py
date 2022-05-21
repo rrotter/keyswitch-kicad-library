@@ -20,9 +20,7 @@ class SwitchKailhChoc(Switch):
     def __init__(self,
                  switch_type: str = 'V1V2',
                  hotswap: bool = False, hotswap_plated: bool = False,
-                 name: str = None,
                  cutout: bool = True,
-                 model3d: str = None,
                  **kwargs):
 
         if switch_type not in ['V1', 'V2', 'V1V2']:
@@ -36,14 +34,10 @@ class SwitchKailhChoc(Switch):
 
         self.switch_type = switch_type
 
-        if model3d is None:
-            if hotswap is True:
-                _model3d = 'SW_Hotswap_Kailh_Choc_v1.wrl'
-            else:
-                _model3d = 'SW_Kailh_Choc_V1.wrl'
+        if hotswap is True:
+            _model3d = 'SW_Hotswap_Kailh_Choc_v1.wrl'
         else:
-            _model3d = model3d
-
+            _model3d = 'SW_Kailh_Choc_V1.wrl'
 
         if hotswap is True:
             _name = 'SW_Hotswap_Kailh_Choc'
