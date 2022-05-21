@@ -162,32 +162,26 @@ class SwitchKailhChoc(Switch, ShapesHotswap):
         # create pads
         if self.hotswap is True:
             if self.hotswap_plated is True:
-                self.append(Pad(number=1, type=Pad.TYPE_THT,
-                                shape=Pad.SHAPE_CIRCLE,
+                self.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
                                 at=[0, -5.9], size=[3.6, 3.6], drill=3.05,
                                 layers=['*.Cu', 'B.Mask']))
-                self.append(Pad(number=2, type=Pad.TYPE_THT,
-                                shape=Pad.SHAPE_CIRCLE,
+                self.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
                                 at=[5, -3.8], size=[3.6, 3.6], drill=3.05,
                                 layers=['*.Cu', 'B.Mask']))
 
-                self.append(Pad(number=1, type=Pad.TYPE_SMT,
-                                shape=Pad.SHAPE_ROUNDRECT,
+                self.append(Pad(number=1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
                                 at=[-2.85, -6], size=[3.85, 2.5],
                                 round_radius_exact=0.25, layers=['B.Cu']))
-                self.append(Pad(number=2, type=Pad.TYPE_SMT,
-                                shape=Pad.SHAPE_ROUNDRECT,
+                self.append(Pad(number=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
                                 at=[7.85, -3.8], size=[3.85, 2.5],
                                 round_radius_exact=0.25, layers=['B.Cu']))
 
                 self.append(Pad(type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
                                 at=[-3.5, -6], size=[2.55, 2.5],
-                                round_radius_exact=0.25,
-                                layers=['B.Mask', 'B.Paste']))
+                                round_radius_exact=0.25, layers=['B.Mask', 'B.Paste']))
                 self.append(Pad(type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
                                 at=[8.5, -3.8], size=[2.55, 2.5],
-                                round_radius_exact=0.25,
-                                layers=['B.Mask', 'B.Paste']))
+                                round_radius_exact=0.25, layers=['B.Mask', 'B.Paste']))
 
             else:
                 self.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
@@ -197,24 +191,19 @@ class SwitchKailhChoc(Switch, ShapesHotswap):
                                 at=[5, -3.8], size=[3.05, 3.05], drill=3.05,
                                 layers=['*.Cu', '*.Mask']))
 
-                self.append(Pad(number=1, type=Pad.TYPE_SMT,
-                                shape=Pad.SHAPE_ROUNDRECT,
+                self.append(Pad(number=1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT,
                                 at=[-3.5, -6], size=[2.55, 2.5],
-                                round_radius_exact=0.25,
-                                layers=['B.Cu', 'B.Mask', 'B.Paste']))
+                                round_radius_exact=0.25, layers=['B.Cu', 'B.Mask', 'B.Paste']))
                 self.append(Pad(number=2, type=Pad.TYPE_SMT,
                                 shape=Pad.SHAPE_ROUNDRECT,
                                 at=[8.5, -3.8], size=[2.55, 2.5],
-                                round_radius_exact=0.25,
-                                layers=['B.Cu', 'B.Mask', 'B.Paste']))
+                                round_radius_exact=0.25, layers=['B.Cu', 'B.Mask', 'B.Paste']))
 
         else:
-            self.append(Pad(number=1, type=Pad.TYPE_THT,
-                            shape=Pad.SHAPE_CIRCLE,
+            self.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
                             at=[0, -5.9], size=[2.2, 2.2], drill=1.2,
                             layers=['*.Cu', 'B.Mask']))
-            self.append(Pad(number=2, type=Pad.TYPE_THT,
-                            shape=Pad.SHAPE_CIRCLE,
+            self.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
                             at=[5, -3.8], size=[2.2, 2.2], drill=1.2,
                             layers=['*.Cu', 'B.Mask']))
 
